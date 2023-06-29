@@ -21,6 +21,8 @@ background.src = "img/background.jpg";
 const enemy = new Image();
 enemy.src = "img/enemy.png";
 
+let enemies = [];
+
 window.addEventListener("keydown", (event) => {
   if (event.key == "w") {
     keys.w = true;
@@ -46,11 +48,8 @@ window.addEventListener("keyup", (event) => {
 });
 
 class Player {
-  constructor() {
-    this.pos = {
-      x: 0,
-      y: 0,
-    };
+  constructor(pos) {
+    this.pos = pos;
     this.speed = 5;
     this.health = 100;
   }
@@ -99,11 +98,8 @@ class Player {
 }
 
 class Enemy {
-  constructor() {
-    this.pos = {
-      x: 0,
-      y: 0,
-    };
+  constructor(pos) {
+    this.pos = pos;
     this.speed = 2;
   }
 
@@ -133,8 +129,31 @@ class Enemy {
   }
 }
 
-let enemy01 = new Enemy();
-const player = new Player();
+const player = new Player({
+  x: Math.floor(Math.random() * canvas.width),
+  y: Math.floor(Math.random() * canvas.height),
+});
+
+function spawnEnemies() {
+  for (i = 0; i < 5; i++) {
+    enemies.push(
+      new Enemy({
+        x: Math.floor(Math.random() * canvas.width),
+        y: Math.floor(Math.random() * canvas.height),
+      })
+    );
+  }
+}
+
+function updateEnemies() {
+  enemies.forEach((enemy) => {
+    enemy.update();
+  });
+}
+
+function setup() {
+  spawnEnemies();
+}
 
 function loop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -143,9 +162,11 @@ function loop() {
 
   player.update();
 
-  enemy01.update();
+  updateEnemies();
 
   requestAnimationFrame(loop);
 }
+
+setup();
 
 loop();
