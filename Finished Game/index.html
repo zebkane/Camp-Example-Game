@@ -3,14 +3,53 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HAhahahahahaha My site</title>
+    <title>Orc Escape</title>
 
-    <style></style>
+    <style>
+      body, .play-page {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      h1 {
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        font-size: 5rem;
+      }
+
+      p {
+        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        font-size: 2rem;
+      }
+
+      button {
+        background-color: red;
+        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        font-size: 2rem;
+        color: white;
+        padding: 1rem 5rem;
+        border: none;
+        cursor: pointer;
+        transition: 0.3s ease;
+      }
+
+      button:hover {
+        padding: 1rem 7rem;
+      }
+
+      canvas {
+        display: none;
+      }
+    </style>
   </head>
   <body>
     <canvas id="canvas"></canvas>
-    <h1>Camp Game</h1>
-    <p>Use WASD to move around gollum</p>
+
+    <div class="play-page">
+      <h1>Orc Escape</h1>
+      <p>Use WASD to move around gollum. Escape the orcs!</p>
+      <button id="play-button">Play</button>
+    </div>
 
     <script src="main.js"></script>
   </body>

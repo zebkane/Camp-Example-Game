@@ -2,6 +2,9 @@ const canvas = document.querySelector("#canvas");
 
 const ctx = canvas.getContext("2d");
 
+const playPage = document.querySelector(".play-page");
+const playButton = document.querySelector("#play-button");
+
 canvas.width = 1000;
 canvas.height = 1000;
 
@@ -22,6 +25,16 @@ const enemy = new Image();
 enemy.src = "img/enemy.png";
 
 let enemies = [];
+
+let gameHasStarted = false;
+
+playButton.addEventListener("click", () => {
+  playPage.style.display = "none";
+  canvas.style.display = "block";
+  gameHasStarted = true;
+
+  setup();
+});
 
 window.addEventListener("keydown", (event) => {
   if (event.key == "w") {
@@ -176,22 +189,39 @@ function updateEnemies() {
   });
 }
 
+function checkEndGame() {
+  if (player.health <= 0) {
+    playPage.style.display = "flex";
+    canvas.style.display = "none";
+    gameHasStarted = false;
+
+    reset();
+  }
+}
+
+function reset() {
+  player.health = 100;
+  enemies = [];
+}
+
 function setup() {
   spawnEnemies();
 }
 
 function loop() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  if (gameHasStarted) {
+    checkEndGame();
 
-  ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  player.update();
+    ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
 
-  updateEnemies();
+    player.update();
+
+    updateEnemies();
+  }
 
   requestAnimationFrame(loop);
 }
-
-setup();
 
 loop();
