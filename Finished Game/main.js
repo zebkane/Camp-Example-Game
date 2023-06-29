@@ -87,6 +87,13 @@ class Player {
   }
 
   draw() {
+    ctx.fillStyle = "#FF6666";
+    ctx.fillRect(25, 25, this.health * 2, 20);
+
+    ctx.strokeStyle = "#2C3333";
+    ctx.lineWidth = 8;
+    ctx.strokeRect(25, 25, 200, 20);
+
     ctx.drawImage(gollum, this.pos.x, this.pos.y, 50, 50);
   }
 
@@ -101,9 +108,26 @@ class Enemy {
   constructor(pos) {
     this.pos = pos;
     this.speed = 2;
+    this.damage = 5;
+    this.attackedRecently = false;
   }
 
-  attack() {}
+  attack() {
+    if (
+      this.pos.x + 50 > player.pos.x &&
+      this.pos.x < player.pos.x + 50 &&
+      this.pos.y + 50 > player.pos.y &&
+      this.pos.y < player.pos.y + 50 &&
+      !this.attackedRecently &&
+      player.health > 0
+    ) {
+      player.health -= this.damage;
+      this.attackedRecently = true;
+      setTimeout(() => {
+        this.attackedRecently = false;
+      }, 1000);
+    }
+  }
 
   move() {
     if (this.pos.x < player.pos.x) {
@@ -124,6 +148,7 @@ class Enemy {
   }
 
   update() {
+    this.attack();
     this.move();
     this.draw();
   }
